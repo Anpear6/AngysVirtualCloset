@@ -1,0 +1,38 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BackHeader from '@components/BackHeader.astro';
+import { createRepository } from '@lib/repository';
+import '../../styles/look.css';
+
+const repository = createRepository(Astro.locals.runtime?.env?.DB);
+const slug = Astro.params.slug ?? '';
+const [look, products] = await Promise.all([repository.getLook(slug), repository.getProductsByLook(slug)]);
+if (!look) return Astro.redirect('/404');
+const bodyClass = `look-page ${look.moodSlug === 'disco' ? 'disco-detail' : look.moodSlug === 'orange' ? 'orange-detail' : 'hibiscus-detail'}`;
+const lookNumber = String(look.number).padStart(3, '0');
+const prefixes = [...new Set(products.map((product) => product.code[0]))];
+const prefixNames: Record<string, string> = { T: 'tops', F: 'faldas', Z: 'zapatos', A: 'accesorios', P: 'pantalones', V: 'vestidos', C: 'chaquetas' };
+---
+
+<BaseLayout title={`Look ${lookNumber} · Angy's Virtual Closet`} description={look.description ?? look.coverAlt} bodyClass={bodyClass}>
+  <BackHeader slot="header" href="/#outfits" label="VOLVER AL ARMARIO" />
+  <main class="detail">
+    <div class="detail-image"><img src={look.coverImage} alt={look.coverAlt} /></div>
+    <div class="detail-copy">
+      <p class="eyebrow">{look.moodName}</p>
+      <h1>LOOK {lookNumber}</h1>
+      <p class="detail-intro">Todas las piezas que componen el look. Pulsa sobre una prenda para ver el producto o una alternativa similar.</p>
+      <div class="product-list">
+        {products.map((product) => (
+          <a href={product.affiliateUrl ?? '#'}>
+            <span class="item-id">{product.code}</span>
+            <span class="item-name">{product.name}</span>
+            <strong>VER PRODUCTO ↗</strong>
+          </a>
+        ))}
+      </div>
+      <p class="affiliate">Los enlaces son provisionales. Algunos podrán ser enlaces de afiliada.</p>
+      <p class="id-legend">{prefixes.map((prefix) => `${prefix} · ${prefixNames[prefix]}`).join('   ')}</p>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,41 @@
+---
+import SiteHeader from '@components/SiteHeader.astro';
+import '../styles/main.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  showAnnouncement?: boolean;
+  showHeader?: boolean;
+  bodyClass?: string;
+}
+
+const {
+  title = "Angy's Virtual Closet",
+  description = "Angy's Virtual Closet: outfits, hallazgos bonitos y dosis de color.",
+  showAnnouncement = false,
+  showHeader = true,
+  bodyClass = '',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Shrikhand&display=swap" rel="stylesheet" />
+  </head>
+  <body class={bodyClass}>
+    {showAnnouncement && <div class="announcement">✿ BIENVENIDA A MI PEQUEÑO UNIVERSO VISUAL ✿</div>}
+    {showHeader && <slot name="header"><SiteHeader /></slot>}
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,10 @@
+---
+import type { Mood } from '@lib/types';
+interface Props { mood: Mood; index: number }
+const { mood, index } = Astro.props;
+---
+<a class={`mood-card ${mood.slug}`} href={`/collections/${mood.slug}`}>
+  <span>{String(index + 1).padStart(2, '0')}</span>
+  <strong>{mood.name.split(' ').map((word, i) => <>{i > 0 && <br />}{word}</>)}</strong>
+  <small>{mood.description}</small>
+</a>

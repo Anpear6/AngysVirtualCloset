@@ -1,0 +1,26 @@
+{
+  "name": "angys-virtual-closet",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "db:migrate:local": "wrangler d1 migrations apply angys-virtual-closet --local",
+    "db:migrate:remote": "wrangler d1 migrations apply angys-virtual-closet --remote",
+    "db:seed:local": "wrangler d1 execute angys-virtual-closet --local --file=./db/seed.sql",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.0",
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@cloudflare/workers-types": "^4.20260701.1",
+    "typescript": "^5.9.0",
+    "wrangler": "^4.107.0"
+  }
+}

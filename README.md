@@ -1,51 +1,68 @@
 # Angy's Virtual Closet
 
-Revista visual y armario virtual de outfits, colecciones por *mood* y productos de afiliación. El proyecto está construido con HTML, CSS y JavaScript sin dependencias de producción ni proceso de compilación.
+Aplicación web dinámica para publicar outfits, organizar colecciones por *mood* y gestionar productos con enlaces de afiliación. Conserva una estética editorial maximalista inspirada en el verano mediterráneo y los años 2000.
+
+## Stack
+
+- **Astro + TypeScript** — componentes y renderizado en servidor.
+- **Cloudflare Workers** — alojamiento y ejecución de la aplicación.
+- **Cloudflare D1** — base de datos SQL.
+- **Cloudflare R2** — almacenamiento de imágenes en la siguiente fase.
+- **CSS propio** — diseño sin librerías visuales externas.
 
 ## Estructura
 
 ```text
 AngysVirtualCloset/
-├── index.html                  # Página principal
-├── assets/
-│   ├── css/
-│   │   ├── main.css           # Variables, elementos comunes y portada
-│   │   ├── collection.css     # Páginas de mood
-│   │   ├── finds.css          # Catálogos Amazon y Shein
-│   │   └── look.css           # Fichas individuales de look
-│   ├── js/
-│   │   ├── main.js            # Portada y navegación móvil
-│   │   ├── collection.js      # Contenido dinámico de moods
-│   │   └── finds.js           # Productos y filtros
-│   └── images/
-│       └── outfits/           # Fotografías de looks
-├── pages/
-│   ├── collections/           # Colecciones por mood
-│   ├── finds/                 # Catálogos de afiliación
-│   └── looks/                 # Una ficha por look
-└── tools/
-    └── format-css.mjs         # Formateador local sin dependencias
+├── db/
+│   ├── migrations/          # Versiones del esquema D1
+│   └── seed.sql             # Datos iniciales de desarrollo
+├── public/
+│   └── images/outfits/      # Imágenes públicas actuales
+├── src/
+│   ├── components/          # Cabecera, pie y tarjetas reutilizables
+│   ├── data/                # Datos de respaldo para desarrollo
+│   ├── layouts/             # Estructura HTML común
+│   ├── lib/                 # Repositorio D1 y tipos del dominio
+│   ├── pages/               # Rutas dinámicas de Astro
+│   └── styles/              # CSS separado por sección
+├── astro.config.mjs
+├── package.json
+├── tsconfig.json
+└── wrangler.jsonc           # Configuración de Cloudflare
 ```
 
-## Ejecutar localmente
-
-La web no necesita instalación. Puedes abrir `index.html` directamente o servir la carpeta con un servidor estático, por ejemplo:
+## Desarrollo local
 
 ```powershell
-python -m http.server 8000
+npm install
+npm run db:migrate:local
+npm run db:seed:local
+npm run dev
 ```
 
-Después visita `http://localhost:8000`.
+La aplicación estará disponible en `http://localhost:4321`.
 
-## Convenciones
+## Comprobaciones
 
-### Looks
+```powershell
+npm run check
+npm run build
+```
 
-Cada look se identifica con tres dígitos: `LOOK 001`, `LOOK 002`, etc. Sus páginas se guardan como `pages/looks/look-001.html`.
+## Rutas
 
-### Prendas
+- `/` — portada.
+- `/looks/002` — ficha dinámica de un look.
+- `/collections/hibiscus` — colección filtrada por mood.
+- `/finds/amazon` — catálogo filtrable de Amazon.
+- `/finds/shein` — catálogo filtrable de Shein.
 
-Cada familia tiene numeración independiente:
+## Modelo de dominio
+
+Los looks, moods y productos se relacionan mediante tablas intermedias. Una prenda puede aparecer en varios looks y tener ofertas de distintos retailers sin duplicar información.
+
+### Identificadores de prendas
 
 - `F` — faldas
 - `Z` — zapatos
@@ -55,8 +72,13 @@ Cada familia tiene numeración independiente:
 - `V` — vestidos
 - `C` — chaquetas
 
-Por ejemplo, `LOOK 002` puede incluir `T001`, `F001`, `Z001` y `A001`.
+## Despliegue
 
-## Estado del contenido
+Antes del primer despliegue hay que crear la base D1 en la cuenta de Cloudflare y sustituir `LOCAL_REPLACE_AFTER_CLOUDFLARE_SETUP` en `wrangler.jsonc` por su identificador real. Después:
 
-Los enlaces de productos y algunos elementos de los catálogos son provisionales hasta incorporar fotografías recortadas y enlaces de afiliación reales.
+```powershell
+npm run db:migrate:remote
+npm run deploy
+```
+
+Los enlaces de producto y parte del contenido comercial siguen siendo provisionales.

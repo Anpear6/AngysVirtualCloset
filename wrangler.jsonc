@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "angys-virtual-closet",
+  "main": "./dist/_worker.js/index.js",
+  "compatibility_date": "2026-07-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "angys-virtual-closet",
+      "database_id": "LOCAL_REPLACE_AFTER_CLOUDFLARE_SETUP",
+      "migrations_dir": "db/migrations"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

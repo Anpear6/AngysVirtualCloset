@@ -1,0 +1,27 @@
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Angy's Virtual Closet, inicio">
+    <span>ANGY'S</span> VIRTUAL CLOSET
+  </a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="main-menu">MENÚ ✺</button>
+  <nav id="main-menu" aria-label="Navegación principal">
+    <a href="/#outfits">Outfits</a>
+    <a href="/#moods">Colecciones</a>
+    <a href="/#finds">Finds</a>
+    <a href="/#sobre-mi">Sobre mí</a>
+  </nav>
+</header>
+
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>('.menu-button');
+  const menu = document.querySelector<HTMLElement>('#main-menu');
+
+  menuButton?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('open') ?? false;
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  menu?.addEventListener('click', () => {
+    menu.classList.remove('open');
+    menuButton?.setAttribute('aria-expanded', 'false');
+  });
+</script>

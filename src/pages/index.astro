@@ -1,0 +1,83 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LookCard from '@components/LookCard.astro';
+import MoodCard from '@components/MoodCard.astro';
+import SiteFooter from '@components/SiteFooter.astro';
+import { createRepository } from '@lib/repository';
+
+const repository = createRepository(Astro.locals.runtime?.env?.DB);
+const [moods, latestLooks] = await Promise.all([repository.getMoods(), repository.getLatestLooks()]);
+const featuredLook = latestLooks[Math.floor(Date.now() / 86_400_000) % latestLooks.length];
+---
+
+<BaseLayout showAnnouncement>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <p class="eyebrow">EDICIÓN 001 · VERANO PARA SIEMPRE</p>
+        <h1>Tu dosis de<br /><em>mediterranean</em><br />dopamine.</h1>
+        <p class="intro">Outfits atrevidos, hallazgos bonitos y pequeñas obsesiones visuales. Un armario virtual para vestirse como si la vida fuera una postal.</p>
+        <a class="button" href="#outfits">ABRIR EL ARMARIO <span>→</span></a>
+      </div>
+      <div class="hero-visual">
+        <div class="sunburst" aria-hidden="true"></div>
+        <img src={featuredLook.coverImage} alt={featuredLook.coverAlt} />
+        <span class="sticker sticker-flower">✿</span>
+        <span class="sticker sticker-note">HOT GIRL<br />SUMMER!</span>
+        <a class="scribble" href={`/looks/${featuredLook.slug}`}>look {String(featuredLook.number).padStart(3, '0')} ↗</a>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div>HIBISCUS SUMMER ✦ ORANGE GIRL ✦ BLUE LAGOON ✦ DISCO SUNSET ✦ COFFEE DATE ✦ HIBISCUS SUMMER ✦</div>
+    </div>
+
+    <section class="section moods" id="moods">
+      <div class="section-heading">
+        <p class="eyebrow">ELIGE TU PERSONAJE</p>
+        <h2>Explora por <em>mood</em></h2>
+        <p>No son categorías. Son estados de ánimo con zapatos.</p>
+      </div>
+      <div class="mood-grid">
+        {moods.map((mood, index) => <MoodCard mood={mood} index={index} />)}
+      </div>
+    </section>
+
+    <section class="section outfits" id="outfits">
+      <div class="section-heading row-heading">
+        <div><p class="eyebrow">RECIÉN SALIDOS DEL ARMARIO</p><h2>Últimos outfits</h2></div>
+        <p>El último look de cada universo. Cuatro puertas de entrada al armario.</p>
+      </div>
+      <div class="outfit-grid">
+        {latestLooks.slice(0, 3).map((look) => <LookCard look={look} />)}
+        <a class="outfit-placeholder lagoon-look" href="/collections/lagoon">
+          <span>BLUE LAGOON</span><strong>EL PRÓXIMO<br />LOOK VIVE AQUÍ</strong><small>VER COLECCIÓN →</small>
+        </a>
+      </div>
+    </section>
+
+    <section class="finds" id="finds">
+      <div class="finds-copy">
+        <p class="eyebrow">OBJETOS DE DESEO</p>
+        <h2>Finds que dan<br /><em>alegría visual</em></h2>
+        <p>Prendas y accesorios con mucha personalidad y poco respeto por el aburrimiento.</p>
+      </div>
+      <div class="find-card">
+        <span>AMAZON<br />FINDS</span><p>pequeños tesoros<br />para el verano</p><a href="/finds/amazon">ABRIR CATÁLOGO ↗</a>
+      </div>
+      <div class="find-card pink">
+        <span>SHEIN<br />FINDS</span><p>caprichos, color<br />y estampados</p><a href="/finds/shein">ABRIR CATÁLOGO ↗</a>
+      </div>
+    </section>
+
+    <section class="about" id="sobre-mi">
+      <div class="about-symbol" aria-hidden="true">☀</div>
+      <div>
+        <p class="eyebrow">ESTE RINCÓN ES PARA TI</p>
+        <h2>La vida es demasiado corta para vestirse en piloto automático.</h2>
+        <p>Este es mi armario virtual: un lugar para guardar ideas, mezclar colores sin pedir permiso y encontrar prendas bonitas sin gastar una locura. Yo hago la búsqueda; tú eliges qué versión de ti sale hoy.</p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

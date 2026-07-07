@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BackHeader from '@components/BackHeader.astro';
+import { createRepository } from '@lib/repository';
+import '../../styles/collection.css';
+
+const repository = createRepository(Astro.locals.runtime?.env?.DB);
+const slug = Astro.params.slug ?? '';
+const moods = await repository.getMoods();
+const mood = moods.find((item) => item.slug === slug);
+if (!mood) return Astro.redirect('/404');
+const looks = await repository.getLooksByMood(slug);
+---
+
+<BaseLayout title={`${mood.name} · Angy's Virtual Closet`} bodyClass="collection-page">
+  <BackHeader slot="header" href="/#moods" label="TODOS LOS MOODS" />
+  <main style={`--mood-bg: ${mood.color}`}>
+    <header class="collection-intro">
+      <div>
+        <p class="eyebrow">COLECCIÓN / {String(mood.sortOrder).padStart(2, '0')}</p>
+        <h1>{mood.name.split(' ').map((word, index) => <>{index > 0 && <br />}{word}</>)}</h1>
+      </div>
+      <div class="collection-note">
+        <span aria-hidden="true">✿</span><p>{mood.description}</p><small>UNA SELECCIÓN DE LOOKS PARA ENTRAR EN ESTE MOOD.</small>
+      </div>
+    </header>
+    <section class="look-gallery" aria-label={`Looks de ${mood.name}`}>
+      {looks.map((look, index) => (
+        <a class={`gallery-look ${index % 2 ? 'landscape' : 'portrait'} visible-${index + 1}`} href={`/looks/${look.slug}`}>
+          <div><img src={look.coverImage} alt={look.coverAlt} /></div>
+          <span>LOOK {String(look.number).padStart(3, '0')} <i>↗</i></span>
+        </a>
+      ))}
+    </section>
+    <aside class="collection-end">
+      <span>✦</span><p>Este mood seguirá creciendo con cada nuevo look.</p><a href="/#outfits">VOLVER A ÚLTIMOS OUTFITS →</a>
+    </aside>
+  </main>
+</BaseLayout>

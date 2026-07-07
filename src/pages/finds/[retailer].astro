@@ -1,0 +1,51 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { createRepository } from '@lib/repository';
+import '../../styles/finds.css';
+
+const retailer = (Astro.params.retailer ?? '').toLowerCase();
+if (!['amazon', 'shein'].includes(retailer)) return Astro.redirect('/404');
+const repository = createRepository(Astro.locals.runtime?.env?.DB);
+const products = await repository.getFinds(retailer);
+const displayName = retailer === 'amazon' ? 'Amazon' : 'Shein';
+const categories = [
+  ['all', 'TODO'], ['tops', 'TOPS'], ['faldas-largas', 'FALDAS LARGAS'],
+  ['faldas-cortas', 'FALDAS CORTAS'], ['pantalones', 'PANTALONES'],
+  ['chaquetas', 'CHAQUETAS'], ['accesorios', 'ACCESORIOS'],
+];
+const icons: Record<string, string> = { tops: '♧', 'faldas-largas': '〰', 'faldas-cortas': '♡', pantalones: 'Ⅱ', chaquetas: '♢', accesorios: '✦' };
+---
+
+<BaseLayout title={`${displayName} Finds · Angy's Virtual Closet`} bodyClass={`shop-page ${retailer}-shop`}>
+  <main>
+    <header class="shop-hero">
+      <p class="eyebrow">{retailer === 'amazon' ? 'OBJETOS DE DESEO' : 'CAPRICHOS CON COLOR'}</p>
+      <h1>{displayName}<br />Finds</h1>
+      <p>{retailer === 'amazon' ? 'Tesoros encontrados después de demasiadas pestañas abiertas.' : 'Estampados, accesorios y piezas con cero vocación de pasar desapercibidas.'}</p>
+    </header>
+    <nav class="filters" aria-label="Filtrar productos">
+      {categories.map(([slug, label], index) => <button class:list={{ active: index === 0 }} data-filter={slug}>{label}</button>)}
+    </nav>
+    <section class="product-grid" id="product-grid">
+      {products.map((product) => (
+        <article class="product-card" data-category={product.categorySlug}>
+          <div class="product-visual" aria-hidden="true">{icons[product.categorySlug] ?? '✦'}</div>
+          <div class="product-info">
+            <small>{product.categoryName.toUpperCase()}</small><h2>{product.name}</h2>
+            <a href={product.affiliateUrl ?? '#'}><span>VER PRODUCTO</span><span>↗</span></a>
+          </div>
+        </article>
+      ))}
+    </section>
+  </main>
+  <script>
+    document.querySelector('.filters')?.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');
+      if (!button) return;
+      document.querySelectorAll('.filters button').forEach((item) => item.classList.toggle('active', item === button));
+      document.querySelectorAll<HTMLElement>('.product-card').forEach((card) => {
+        card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
+      });
+    });
+  </script>
+</BaseLayout>
