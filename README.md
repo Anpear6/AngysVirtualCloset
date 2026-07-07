@@ -1,24 +1,62 @@
 # Angy's Virtual Closet
 
-Primer borrador de una revista visual y armario virtual de outfits. Es una web estática: no necesita instalación ni proceso de compilación.
+Revista visual y armario virtual de outfits, colecciones por *mood* y productos de afiliación. El proyecto está construido con HTML, CSS y JavaScript sin dependencias de producción ni proceso de compilación.
 
-## Ver la web
+## Estructura
 
-Abre `index.html` en el navegador o sirve esta carpeta con cualquier servidor estático.
+```text
+AngysVirtualCloset/
+├── index.html                  # Página principal
+├── assets/
+│   ├── css/
+│   │   ├── main.css           # Variables, elementos comunes y portada
+│   │   ├── collection.css     # Páginas de mood
+│   │   ├── finds.css          # Catálogos Amazon y Shein
+│   │   └── look.css           # Fichas individuales de look
+│   ├── js/
+│   │   ├── main.js            # Portada y navegación móvil
+│   │   ├── collection.js      # Contenido dinámico de moods
+│   │   └── finds.js           # Productos y filtros
+│   └── images/
+│       └── outfits/           # Fotografías de looks
+├── pages/
+│   ├── collections/           # Colecciones por mood
+│   ├── finds/                 # Catálogos de afiliación
+│   └── looks/                 # Una ficha por look
+└── tools/
+    └── format-css.mjs         # Formateador local sin dependencias
+```
 
-## Editar contenido
+## Ejecutar localmente
 
-- `index.html`: textos, secciones y enlaces.
-- `styles.css`: colores y diseño.
-- `outfit-*.html`: páginas de cada outfit y enlaces de producto.
-- `coleccion.html`: mosaico dinámico reutilizado por todos los moods.
-- `amazon-finds.html` y `shein-finds.html`: catálogos separados con filtros.
-- `imagenes-pinterest/`: fotografías propias del proyecto.
+La web no necesita instalación. Puedes abrir `index.html` directamente o servir la carpeta con un servidor estático, por ejemplo:
 
-Los enlaces marcados como `AÑADIR ENLACE` y los enlaces sociales son provisionales.
+```powershell
+python -m http.server 8000
+```
 
-Las fichas de prendas de los looks y los productos de los catálogos usan contenido provisional hasta incorporar fotografías recortadas y enlaces de afiliada reales.
+Después visita `http://localhost:8000`.
 
-## Identificadores de prendas
+## Convenciones
 
-Cada familia tiene su propia numeración: `F` faldas, `Z` zapatos, `A` accesorios, `P` pantalones, `T` tops, `V` vestidos y `C` chaquetas. Por ejemplo, `LOOK 002` puede incluir `T001`, `F001`, `Z001` y `A001`.
+### Looks
+
+Cada look se identifica con tres dígitos: `LOOK 001`, `LOOK 002`, etc. Sus páginas se guardan como `pages/looks/look-001.html`.
+
+### Prendas
+
+Cada familia tiene numeración independiente:
+
+- `F` — faldas
+- `Z` — zapatos
+- `A` — accesorios
+- `P` — pantalones
+- `T` — tops
+- `V` — vestidos
+- `C` — chaquetas
+
+Por ejemplo, `LOOK 002` puede incluir `T001`, `F001`, `Z001` y `A001`.
+
+## Estado del contenido
+
+Los enlaces de productos y algunos elementos de los catálogos son provisionales hasta incorporar fotografías recortadas y enlaces de afiliación reales.

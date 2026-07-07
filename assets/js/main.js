@@ -6,23 +6,23 @@ const menu = document.querySelector('#main-menu');
 const featuredLooks = [
   {
     number: '001',
-    image: 'imagenes-pinterest/e43b02943bacb5b1b793d9a5e03683f7.jpg',
+    image: 'assets/images/outfits/e43b02943bacb5b1b793d9a5e03683f7.jpg',
     alt: 'Outfit mediterráneo con falda larga estampada',
-    href: 'outfit-boho.html',
+    href: 'pages/looks/look-001.html',
     note: 'BOHO<br>GOLDEN HOUR!'
   },
   {
     number: '002',
-    image: 'imagenes-pinterest/002-minifalda-vaquera-kiosco-helados-v2.png',
+    image: 'assets/images/outfits/002-minifalda-vaquera-kiosco-helados-v2.png',
     alt: 'Outfit veraniego con minifalda vaquera y camiseta amarilla',
-    href: 'outfit-helado.html',
+    href: 'pages/looks/look-002.html',
     note: 'HOT GIRL<br>SUMMER!'
   },
   {
     number: '003',
-    image: 'imagenes-pinterest/003-pantalon-rayas-atardecer-playa.png',
+    image: 'assets/images/outfits/003-pantalon-rayas-atardecer-playa.png',
     alt: 'Pantalón de rayas rosas al atardecer en la playa',
-    href: 'outfit-atardecer.html',
+    href: 'pages/looks/look-003.html',
     note: 'DISCO<br>SUNSET!'
   }
 ];
