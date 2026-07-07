@@ -5,6 +5,13 @@ const menu = document.querySelector('#main-menu');
 // basta con sumar un objeto nuevo a esta lista.
 const featuredLooks = [
   {
+    number: '001',
+    image: 'imagenes-pinterest/e43b02943bacb5b1b793d9a5e03683f7.jpg',
+    alt: 'Outfit mediterráneo con falda larga estampada',
+    href: 'outfit-boho.html',
+    note: 'BOHO<br>GOLDEN HOUR!'
+  },
+  {
     number: '002',
     image: 'imagenes-pinterest/002-minifalda-vaquera-kiosco-helados-v2.png',
     alt: 'Outfit veraniego con minifalda vaquera y camiseta amarilla',

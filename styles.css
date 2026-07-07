@@ -11,3 +11,19 @@
 /* El rótulo de portada también funciona como enlace al look destacado. */
 .scribble{text-decoration:none;border:2px solid transparent;transition:.2s}
 .scribble:hover{border-color:var(--chocolate);transform:rotate(2deg) scale(1.04)}
+
+/* Cuatro últimos looks: uno por mood. */
+.outfit-grid{grid-template-columns:repeat(12,1fr);align-items:start}
+.recent-card{grid-column:span 6;background:var(--mauve)}
+.recent-card:nth-child(even){margin-top:5rem}
+.recent-card .image-link{height:560px}
+.recent-card .card-copy h3{margin-bottom:.4rem}
+.hibiscus-look{background:var(--mauve)}
+.disco-look{background:var(--caramel)}
+.orange-look{background:var(--orange)}
+.lagoon-look{background:var(--aqua)}
+.outfit-placeholder{grid-column:span 6;min-height:520px;border:2px solid var(--chocolate);box-shadow:7px 7px 0 var(--chocolate);padding:2rem;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;position:relative;overflow:hidden;margin-top:5rem}
+.outfit-placeholder:after{content:"〰";position:absolute;font-size:20rem;right:-3rem;top:1rem;opacity:.18}
+.outfit-placeholder strong{font:3rem/.9 var(--display);position:relative;z-index:1}
+.outfit-placeholder span,.outfit-placeholder small{font-weight:700;letter-spacing:.1em;position:relative;z-index:1}
+@media(max-width:900px){.recent-card,.outfit-placeholder{grid-column:span 12;margin-top:0!important}}
