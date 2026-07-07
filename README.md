@@ -18,3 +18,7 @@ Abre `index.html` en el navegador o sirve esta carpeta con cualquier servidor es
 Los enlaces marcados como `AÑADIR ENLACE` y los enlaces sociales son provisionales.
 
 Las fichas de prendas de los looks y los productos de los catálogos usan contenido provisional hasta incorporar fotografías recortadas y enlaces de afiliada reales.
+
+## Identificadores de prendas
+
+Cada familia tiene su propia numeración: `F` faldas, `Z` zapatos, `A` accesorios, `P` pantalones, `T` tops, `V` vestidos y `C` chaquetas. Por ejemplo, `LOOK 002` puede incluir `T001`, `F001`, `Z001` y `A001`.

@@ -13,6 +13,10 @@ document.querySelector('#mood-number').textContent = mood.number;
 document.querySelector('#mood-title').innerHTML = mood.title;
 document.querySelector('#mood-description').textContent = mood.description;
 document.title = `${mood.title.replace('<br>', ' ')} · Angy's Virtual Closet`;
+const visibleCards = [];
 document.querySelectorAll('[data-moods]').forEach(card => {
   card.hidden = !card.dataset.moods.split(' ').includes(moodKey);
+  card.classList.remove('visible-1', 'visible-2', 'visible-3');
+  if (!card.hidden) visibleCards.push(card);
 });
+visibleCards.forEach((card, index) => card.classList.add(`visible-${index + 1}`));
