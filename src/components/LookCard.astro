@@ -2,15 +2,16 @@
 import type { Look } from '@lib/types';
 interface Props { look: Look; className?: string }
 const { look, className = '' } = Astro.props;
-const moodClass = `${look.moodSlug ?? 'hibiscus'}-look`;
+const moodClass = `${look.moodCode ?? 'hibiscus'}-look`;
+const lookNumber = String(look.number).padStart(3, '0');
 ---
 <article class={`outfit-card recent-card ${moodClass} ${className}`}>
-  <a class="image-link" href={`/looks/${look.slug}`}>
+  <a class="image-link" href={`/looks/${lookNumber}`}>
     <img src={look.coverImage} alt={look.coverAlt} />
   </a>
   <div class="card-copy">
     <span>{look.moodName}</span>
     <h3>LOOK {String(look.number).padStart(3, '0')}</h3>
-    <a href={`/looks/${look.slug}`}>ABRIR LOOK →</a>
+    <a href={`/looks/${lookNumber}`}>ABRIR LOOK →</a>
   </div>
 </article>

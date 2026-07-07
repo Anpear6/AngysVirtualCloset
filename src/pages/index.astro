@@ -24,7 +24,7 @@ const featuredLook = latestLooks[Math.floor(Date.now() / 86_400_000) % latestLoo
         <img src={featuredLook.coverImage} alt={featuredLook.coverAlt} />
         <span class="sticker sticker-flower">✿</span>
         <span class="sticker sticker-note">HOT GIRL<br />SUMMER!</span>
-        <a class="scribble" href={`/looks/${featuredLook.slug}`}>look {String(featuredLook.number).padStart(3, '0')} ↗</a>
+        <a class="scribble" href={`/looks/${String(featuredLook.number).padStart(3, '0')}`}>look {String(featuredLook.number).padStart(3, '0')} ↗</a>
       </div>
     </section>
 

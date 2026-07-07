@@ -5,11 +5,11 @@ import { createRepository } from '@lib/repository';
 import '../../styles/collection.css';
 
 const repository = createRepository(Astro.locals.runtime?.env?.DB);
-const slug = Astro.params.slug ?? '';
+const code = Astro.params.code ?? '';
 const moods = await repository.getMoods();
-const mood = moods.find((item) => item.slug === slug);
+const mood = moods.find((item) => item.code === code);
 if (!mood) return Astro.redirect('/404');
-const looks = await repository.getLooksByMood(slug);
+const looks = await repository.getLooksByMood(code);
 ---
 
 <BaseLayout title={`${mood.name} · Angy's Virtual Closet`} bodyClass="collection-page">
@@ -26,7 +26,7 @@ const looks = await repository.getLooksByMood(slug);
     </header>
     <section class="look-gallery" aria-label={`Looks de ${mood.name}`}>
       {looks.map((look, index) => (
-        <a class={`gallery-look ${index % 2 ? 'landscape' : 'portrait'} visible-${index + 1}`} href={`/looks/${look.slug}`}>
+        <a class={`gallery-look ${index % 2 ? 'landscape' : 'portrait'} visible-${index + 1}`} href={`/looks/${String(look.number).padStart(3, '0')}`}>
           <div><img src={look.coverImage} alt={look.coverAlt} /></div>
           <span>LOOK {String(look.number).padStart(3, '0')} <i>↗</i></span>
         </a>

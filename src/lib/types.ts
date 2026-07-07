@@ -1,7 +1,7 @@
 export interface Mood {
   id: number;
   name: string;
-  slug: string;
+  code: string;
   color: string;
   description: string;
   sortOrder: number;
@@ -10,13 +10,12 @@ export interface Mood {
 export interface Look {
   id: number;
   number: number;
-  slug: string;
   coverImage: string;
   coverAlt: string;
   description: string | null;
   publishedAt: string;
   moodName?: string;
-  moodSlug?: string;
+  moodCode?: string;
 }
 
 export interface Product {
@@ -26,9 +25,8 @@ export interface Product {
   description: string | null;
   image: string | null;
   categoryName: string;
-  categorySlug: string;
-  retailerName?: string;
-  affiliateUrl?: string;
-  priceCents?: number | null;
-  currency?: string;
+  categoryCode: string;
+  shop: 'AMAZON' | 'SHEIN' | 'OTHER';
+  affiliateUrl: string;
+  active: boolean;
 }

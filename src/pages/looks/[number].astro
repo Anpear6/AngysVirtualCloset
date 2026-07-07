@@ -5,10 +5,10 @@ import { createRepository } from '@lib/repository';
 import '../../styles/look.css';
 
 const repository = createRepository(Astro.locals.runtime?.env?.DB);
-const slug = Astro.params.slug ?? '';
-const [look, products] = await Promise.all([repository.getLook(slug), repository.getProductsByLook(slug)]);
+const number = Astro.params.number ?? '';
+const [look, products] = await Promise.all([repository.getLook(number), repository.getProductsByLook(number)]);
 if (!look) return Astro.redirect('/404');
-const bodyClass = `look-page ${look.moodSlug === 'disco' ? 'disco-detail' : look.moodSlug === 'orange' ? 'orange-detail' : 'hibiscus-detail'}`;
+const bodyClass = `look-page ${look.moodCode === 'disco' ? 'disco-detail' : look.moodCode === 'orange' ? 'orange-detail' : 'hibiscus-detail'}`;
 const lookNumber = String(look.number).padStart(3, '0');
 const prefixes = [...new Set(products.map((product) => product.code[0]))];
 const prefixNames: Record<string, string> = { T: 'tops', F: 'faldas', Z: 'zapatos', A: 'accesorios', P: 'pantalones', V: 'vestidos', C: 'chaquetas' };

@@ -60,7 +60,19 @@ npm run build
 
 ## Modelo de dominio
 
-Los looks, moods y productos se relacionan mediante tablas intermedias. Una prenda puede aparecer en varios looks y tener ofertas de distintos retailers sin duplicar información.
+El modelo utiliza cinco tablas: `moods`, `looks`, `product_categories`, `products` y `look_products`. Los identificadores internos (`id`) se mantienen separados de los códigos públicos (`number` y `code`). Cada producto guarda directamente su tienda y su enlace de afiliación.
+
+## Backend y futuro panel
+
+Astro se ejecuta dentro de un Cloudflare Worker, que actúa como backend. Las páginas públicas solo realizan lecturas. El futuro panel de administración enviará operaciones autenticadas al Worker para:
+
+- crear y editar looks;
+- gestionar prendas y enlaces de afiliación;
+- asociar prendas con looks;
+- subir imágenes a R2;
+- guardar borradores y publicar contenido.
+
+El navegador nunca tendrá acceso directo a D1. El panel se protegerá con Cloudflare Access para permitir únicamente la cuenta autorizada.
 
 ### Identificadores de prendas
 
